@@ -3,7 +3,6 @@ numpy
 xlsxwriter
 streamlit
 matplotlib
-time
 math
 io
 geopandas
