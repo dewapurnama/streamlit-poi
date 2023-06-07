@@ -128,6 +128,9 @@ if excel_file is not None:
         if gdf_append['geometry'][i].geom_type == "Polygon":
             Long_POI.append(gdf_append['geometry'][i].centroid.x)
             Lat_POI.append(gdf_append['geometry'][i].centroid.y)
+        elif gdf_append['geometry'][i].geom_type == "MultiPolygon":
+            Long_POI.append(gdf_append['geometry'][i].centroid.x)
+            Lat_POI.append(gdf_append['geometry'][i].centroid.y)
         elif gdf_append['geometry'][i].geom_type == "Point":
             Long_POI.append(gdf_append['geometry'][i].x)
             Lat_POI.append(gdf_append['geometry'][i].y)
