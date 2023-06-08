@@ -57,6 +57,11 @@ if excel_file is not None:
     a = pd.read_excel(excel_file)
     st.dataframe(a)
     
+    for column in a.columns:
+      if a[column].dtype in [float, int] and a[column].between(-180, 180).all() and not a[column].between(-90, 90).all():
+        a = a.rename(columns={column: "Long"})
+      elif a[column].dtype in [float, int] and a[column].between(-90, 90).all():
+        a = a.rename(columns={column: "Lat"})
     #gdf.rename(columns={'Lat':'Lat_TBG','Long':'Long_TBG'}, inplace=True)
     
     #st.dataframe(gdf)
