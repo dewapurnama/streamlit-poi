@@ -23,7 +23,6 @@ import matplotlib.pyplot as plt
 
 st.title('Crowdsource Automation')
 
-#tes_input = st.text_input('ini input ayo input')
 data_amenity = {'amenity': ['all', 'apartment', 'cafe', 'campus', 'cemetery', 'farming', 'gas station', 'hospital', 'hotel', 
                             'industrial area', 'kindergarten', 'mall', 'mining area', 'modern market', 'office', 'palm oil', 
                             'public facilities', 'pumping station', 'residential', 'restaurant', 'school', 'tourist park', 
@@ -151,9 +150,9 @@ if excel_file is not None:
     gdf_append = gdf_append.drop_duplicates()
                              
     if "nama_POI" in gdf_append.columns:
-        gdf_append = gdf_append.drop_duplicates(subset=['SiteId TBG', 'amenity', 'nama_POI'], keep='first').reset_index(drop=True)
+        gdf_append = gdf_append.drop_duplicates(subset=[gdf_append.columns.values[0], 'amenity', 'nama_POI'], keep='first').reset_index(drop=True)
         if "building" in gdf_append.columns:
-            gdf_append = gdf_append.drop_duplicates(subset=['SiteId TBG', 'building', 'nama_POI'], keep='first').reset_index(drop=True)
+            gdf_append = gdf_append.drop_duplicates(subset=[gdf_append.columns.values[0], 'building', 'nama_POI'], keep='first').reset_index(drop=True)
     
     amenities = []
     if "amenity" in gdf_append.columns:
@@ -230,8 +229,8 @@ if excel_file is not None:
     st.pyplot(fig)
     
     x = []
-    for i in gdf_append["SiteId TBG"].unique():
-        x.append(gdf_append.loc[gdf_append['SiteId TBG'] == i, 'POI'].unique())
+    for i in gdf_append[gdf_append.columns.values[0]].unique():
+        x.append(gdf_append.loc[gdf_append[gdf_append.columns.values[0]] == i, 'POI'].unique())
     
     z=[]
     for i in range(len(x)):
@@ -242,16 +241,16 @@ if excel_file is not None:
                 y = y+"+"
         z.append(y)
 
-    gdf_append = gdf_append.drop_duplicates(subset=['SiteId TBG'], keep='first').reset_index(drop=True)
+    gdf_append = gdf_append.drop_duplicates(subset=[gdf_append.columns.values[0]], keep='first').reset_index(drop=True)
     gdf_append["POIs"]=z
-    gdf_summary = gdf_append[['SiteId TBG', 'POIs']].copy()
+    gdf_summary = gdf_append[[gdf_append.columns.values[0], 'POIs']].copy()
     gdf_summary.rename(columns={'POIs':'POI'}, inplace=True)
     #gdf_append['geometry'] = gdf_append['geometry'].astype(str)
     
     #piechart
     fig1 = plt.figure(figsize=(10,7))
     labels = ["Site with POI", "Site without POI"]
-    sizes = [gdf_summary["SiteId TBG"].nunique(), (len(a)-gdf_summary["SiteId TBG"].nunique())]
+    sizes = [gdf_summary[gdf_append.columns.values[0]].nunique(), (len(a)-gdf_summary[gdf_append.columns.values[0]].nunique())]
     plt.pie(sizes, labels = labels, autopct='%1.1f%%')
     #fig1,ax1 = plt.subplots()
     #ax1.pie(sizes, labels=labels, , autopct='%1.1f%%')
