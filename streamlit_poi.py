@@ -221,7 +221,7 @@ if excel_file is not None:
     st.dataframe(gdf_append)
     st.markdown("<h1 style='font-size: 20px;'>POI Distribution by Location</h1>", unsafe_allow_html=True)
     fig = px.scatter_mapbox(gdf_append, lat="Lat_POI", lon="Long_POI", hover_name="POI", zoom=4)
-    fig.update_traces(hovertemplate='<b>Location:</b> %{hovertext}<br><b>nama_POI:</b> %{"nama_POI"}<br><b>POI:</b> %{hovertext}')
+    fig.update_traces(hovertemplate='<b>Location:</b> %{hovertext}<br><b>nama_POI:</b> %{nama_POI}<br><b>POI:</b> %{hovertext}')
     fig.update_layout(mapbox_style="open-street-map")
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     st.plotly_chart(fig)
