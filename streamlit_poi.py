@@ -235,8 +235,8 @@ if excel_file is not None:
       
   
       fig.update_layout(
-          height=400,
-          width=col1.width,
+          height=300,
+          width=200,
           xaxis_title='Number of POI',
           yaxis_title='Category',
           showlegend=False
