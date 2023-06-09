@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 
 # In[3]:
 
-st.markdown("<h1 style='font-size: 25px;'>Header</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='font-size: 5px;'>Header</h1>", unsafe_allow_html=True)
 st.title('Crowdsource Automation')
 
 data_amenity = {'amenity': ['all', 'apartment', 'cafe', 'campus', 'cemetery', 'farming', 'gas station', 'hospital', 'hotel', 
