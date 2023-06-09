@@ -231,6 +231,7 @@ if excel_file is not None:
       st.markdown("<h1 style='font-size: 20px;'>Distribution of POI Category</h1>", unsafe_allow_html=True)
       values = gdf_append["POI"].value_counts()
       fig = px.bar(gdf_append, x=values.tolist(), y=values.index.tolist(), orientation='h')
+      fig.update_traces(hovertemplate='Category: %{x}<br>Number of POI: %{y}')
 
       fig.update_layout(
           xaxis_title='Number of POI',
@@ -272,7 +273,7 @@ if excel_file is not None:
     with col2:
       st.markdown("<h1 style='font-size: 20px;'>Distribution of Site with and without POI</h1>", unsafe_allow_html=True)
       fig1, ax = plt.subplots()
-      fig.set_size_inches(10, 7)
+      fig1.set_size_inches(10, 7)
       #fig1 = plt.figure(figsize=(10,7))
       labels = ["Site with POI", "Site without POI"]
       sizes = [gdf_summary[gdf_append.columns.values[0]].nunique(), (len(a)-gdf_summary[gdf_append.columns.values[0]].nunique())]
