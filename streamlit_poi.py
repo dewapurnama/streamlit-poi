@@ -220,7 +220,7 @@ if excel_file is not None:
     st.dataframe(gdf_append)
     st.map(gdf_append)
     
-    col1, col2 = st.beta_columns(2)
+    col1, col2 = st.columns(2)
     with col1:
       st.header("Distribution of POI Category")
       fig = plt.figure(figsize=(10,7))
