@@ -220,13 +220,16 @@ if excel_file is not None:
     st.dataframe(gdf_append)
     st.map(gdf_append)
     
-    fig = plt.figure(figsize=(10,7))
-    values = gdf_append["POI"].value_counts()
-    plt.title("POI Category Distribution")
-    plt.ylabel("Category")
-    plt.xlabel("Number of POI")
-    plt.barh(values.index, values)
-    st.pyplot(fig)
+    col1, col2 = st.beta_columns(2)
+    with col1:
+      st.header("Distribution of POI Category")
+      fig = plt.figure(figsize=(10,7))
+      values = gdf_append["POI"].value_counts()
+      plt.title("POI Category Distribution")
+      plt.ylabel("Category")
+      plt.xlabel("Number of POI")
+      plt.barh(values.index, values)
+      st.pyplot(fig)
     
     x = []
     for i in gdf_append[gdf_append.columns.values[0]].unique():
@@ -248,15 +251,17 @@ if excel_file is not None:
     #gdf_append['geometry'] = gdf_append['geometry'].astype(str)
     
     #piechart
-    fig1 = plt.figure(figsize=(10,7))
-    labels = ["Site with POI", "Site without POI"]
-    sizes = [gdf_summary[gdf_append.columns.values[0]].nunique(), (len(a)-gdf_summary[gdf_append.columns.values[0]].nunique())]
-    plt.pie(sizes, labels = labels, autopct='%1.1f%%')
+    with col2:
+      st.header("Site with and without POI Distribution")
+      fig1 = plt.figure(figsize=(10,7))
+      labels = ["Site with POI", "Site without POI"]
+      sizes = [gdf_summary[gdf_append.columns.values[0]].nunique(), (len(a)-gdf_summary[gdf_append.columns.values[0]].nunique())]
+      plt.pie(sizes, labels = labels, autopct='%1.1f%%')
     #fig1,ax1 = plt.subplots()
     #ax1.pie(sizes, labels=labels, , autopct='%1.1f%%')
     #ax1.set_title("tes")
     #ax1.axis('equal')
-    st.pyplot(fig1)
+      st.pyplot(fig1)
     
     #barchart
     #fig = plt.figure(figsize=(10,7))
