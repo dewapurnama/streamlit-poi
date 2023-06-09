@@ -232,11 +232,13 @@ if excel_file is not None:
       values = gdf_append["POI"].value_counts()
       fig = px.bar(gdf_append, x=values.tolist(), y=values.index.tolist(), orientation='h')
       fig.update_traces(hovertemplate='Category: %{y}<br>Number of POI: %{x}')
+      fig.update_yaxes(tickfont=dict(size=8))
+      fig.update_xaxes(tickfont=dict(size=8))
       
   
       fig.update_layout(
           height=300,
-          width=200,
+          width=350,
           xaxis_title='Number of POI',
           yaxis_title='Category',
           showlegend=False
