@@ -256,7 +256,8 @@ if excel_file is not None:
       fig1 = plt.figure(figsize=(10,7))
       labels = ["Site with POI", "Site without POI"]
       sizes = [gdf_summary[gdf_append.columns.values[0]].nunique(), (len(a)-gdf_summary[gdf_append.columns.values[0]].nunique())]
-      plt.pie(sizes, labels = labels, autopct='%0.8f%%')
+      ax.set_ylim(top=1)
+      plt.pie(sizes, labels = labels, autopct='%1.1f%%')
     #fig1,ax1 = plt.subplots()
     #ax1.pie(sizes, labels=labels, , autopct='%1.1f%%')
     #ax1.set_title("tes")
