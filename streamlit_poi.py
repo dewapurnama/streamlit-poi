@@ -217,10 +217,10 @@ if excel_file is not None:
                 if gdf_append['POI'][j]==i:
                     gdf_append['POI'][j]='public facilities'
                            
-    gdf_append = gdf_append.rename(columns={"Lat_POI":"lat","Long_POI":"lon"})
+    #gdf_append = gdf_append.rename(columns={"Lat_POI":"lat","Long_POI":"lon"})
     st.dataframe(gdf_append)
     st.markdown("<h1 style='font-size: 20px;'>POI Distribution by Location</h1>", unsafe_allow_html=True)
-    fig = px.scatter_mapbox(gdf_append, lat="lat", lon="lon", zoom=3)
+    fig = px.scatter_mapbox(gdf_append, lat="Lat_POI", lon="Long_POI", hover_name="nama_POI", zoom=3)
     fig.update_layout(mapbox_style="open-street-map")
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     st.plotly_chart(fig)
