@@ -14,6 +14,7 @@ import xlsxwriter
 import geopandas as gpd
 import folium
 import osmnx as ox
+import plotly.express as px
 import re
 
 from shapely.geometry import Point, LineString, Polygon
@@ -219,7 +220,11 @@ if excel_file is not None:
     gdf_append = gdf_append.rename(columns={"Lat_POI":"lat","Long_POI":"lon"})
     st.dataframe(gdf_append)
     st.markdown("<h1 style='font-size: 20px;'>POI Distribution by Location</h1>", unsafe_allow_html=True)
-    st.map(gdf_append)
+    fig = px.scatter_mapbox(gdf_append, lat="Lat", lon="Long", zoom=3)
+    fig.update_layout(mapbox_style="open-street-map")
+    fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+    st.plotly_chart(fig)
+    #st.map(gdf_append)
     
     col1, col2 = st.columns(2)
     with col1:
