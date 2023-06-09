@@ -210,7 +210,6 @@ if excel_file is not None:
               
     amenity = ['Apartment','School/Campus','Gas Station','Restaurant / Cafe', 'Hospital', 'Hotel', 'Cemetery', 'Farming', 'Industrial Area', 'Mall', 'Mining Area', 'Modern Market', 'Office', 'Palm Oil', 'public facilities', 'Pumping Station', 'Residential', 'Tourist Park', 'Traditional Market', 'Transport Hub', 'Voucher Shop', 'Warehouse', 'worship place']
     
-    st.markdown("<h1 style='font-size: 20px;'>POI Distribution by Location</h1>", unsafe_allow_html=True)
     for i in gdf_append['POI'].unique():
         if i not in amenity:
             for j in gdf_append.index:
@@ -219,6 +218,7 @@ if excel_file is not None:
                            
     gdf_append = gdf_append.rename(columns={"Lat_POI":"lat","Long_POI":"lon"})
     st.dataframe(gdf_append)
+    st.markdown("<h1 style='font-size: 20px;'>POI Distribution by Location</h1>", unsafe_allow_html=True)
     st.map(gdf_append)
     
     col1, col2 = st.columns(2)
