@@ -228,6 +228,9 @@ if excel_file is not None:
       plt.title("POI Category Distribution")
       plt.ylabel("Category")
       plt.xlabel("Number of POI")
+      for container in plt.gca().containers:
+        for bar in container:
+          bar.set_edgecolor('none')
       plt.barh(values.index, values)
       st.pyplot(fig)
     
