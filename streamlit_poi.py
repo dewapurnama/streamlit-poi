@@ -222,7 +222,7 @@ if excel_file is not None:
     
     col1, col2 = st.columns(2)
     with col1:
-      st.markdown("<h1 style='font-size: 26px;'>Distribution of POI Category</h1>", unsafe_allow_html=True)
+      st.markdown("<h1 style='font-size: 20px;'>Distribution of POI Category</h1>", unsafe_allow_html=True)
       fig = plt.figure(figsize=(10,7))
       values = gdf_append["POI"].value_counts()
       plt.title("POI Category Distribution")
@@ -252,11 +252,11 @@ if excel_file is not None:
     
     #piechart
     with col2:
-      st.markdown("<h1 style='font-size: 26px;'>Site with and without POI Distribution</h1>", unsafe_allow_html=True)
+      st.markdown("<h1 style='font-size: 20px;'>Site with and without POI Distribution</h1>", unsafe_allow_html=True)
       fig1 = plt.figure(figsize=(10,7))
       labels = ["Site with POI", "Site without POI"]
       sizes = [gdf_summary[gdf_append.columns.values[0]].nunique(), (len(a)-gdf_summary[gdf_append.columns.values[0]].nunique())]
-      plt.pie(sizes, labels = labels, autopct='%1.1f%%')
+      plt.pie(sizes, labels = labels, autopct='%0.8f%%')
     #fig1,ax1 = plt.subplots()
     #ax1.pie(sizes, labels=labels, , autopct='%1.1f%%')
     #ax1.set_title("tes")
