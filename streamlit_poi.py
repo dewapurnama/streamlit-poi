@@ -21,7 +21,6 @@ import matplotlib.pyplot as plt
 
 # In[3]:
 
-st.markdown("<h1 style='font-size: 5px;'>Header</h1>", unsafe_allow_html=True)
 st.title('Crowdsource Automation')
 
 data_amenity = {'amenity': ['all', 'apartment', 'cafe', 'campus', 'cemetery', 'farming', 'gas station', 'hospital', 'hotel', 
@@ -223,15 +222,12 @@ if excel_file is not None:
     
     col1, col2 = st.columns(2)
     with col1:
-      st.header("Distribution of POI Category")
+      st.markdown("<h1 style='font-size: 32px;'>Distribution of POI Category</h1>", unsafe_allow_html=True)
       fig = plt.figure(figsize=(10,7))
       values = gdf_append["POI"].value_counts()
       plt.title("POI Category Distribution")
       plt.ylabel("Category")
       plt.xlabel("Number of POI")
-      for container in plt.gca().containers:
-        for bar in container:
-          bar.set_edgecolor('none')
       plt.barh(values.index, values)
       st.pyplot(fig)
     
