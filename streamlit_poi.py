@@ -230,7 +230,7 @@ if excel_file is not None:
     with col1:
       st.markdown("<h1 style='font-size: 20px;'>Distribution of POI Category</h1>", unsafe_allow_html=True)
       values = gdf_append["POI"].value_counts()
-      fig = px.bar(gdf_append, x=values.index,tolist(), y=values.tolist(), orientation='h')
+      fig = px.bar(gdf_append, x=values.index.tolist(), y=values.tolist(), orientation='h')
 
       fig.update_layout(
           xaxis_title='Number of POI',
