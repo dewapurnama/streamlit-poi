@@ -229,13 +229,25 @@ if excel_file is not None:
     col1, col2 = st.columns(2)
     with col1:
       st.markdown("<h1 style='font-size: 20px;'>Distribution of POI Category</h1>", unsafe_allow_html=True)
-      fig = plt.figure(figsize=(10,7))
       values = gdf_append["POI"].value_counts()
-      plt.title("POI Category Distribution")
-      plt.ylabel("Category")
-      plt.xlabel("Number of POI")
-      plt.barh(values.index, values)
-      st.pyplot(fig)
+      fig = px.bar(gdf_append, x=values.index, y=values, orientation='h')
+
+      fig.update_layout(
+          xaxis_title='Number of POI',
+          yaxis_title='Category',
+          showlegend=False
+      )
+
+      fig.update_traces(marker_color='rgb(0, 128, 128)')
+
+      st.plotly_chart(fig)
+      #fig = plt.figure(figsize=(10,7))
+      #values = gdf_append["POI"].value_counts()
+      #plt.title("POI Category Distribution")
+      #plt.ylabel("Category")
+      #plt.xlabel("Number of POI")
+      #plt.barh(values.index, values)
+      #st.pyplot(fig)
     
     x = []
     for i in gdf_append[gdf_append.columns.values[0]].unique():
