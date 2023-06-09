@@ -231,9 +231,12 @@ if excel_file is not None:
       st.markdown("<h1 style='font-size: 20px;'>Distribution of POI Category</h1>", unsafe_allow_html=True)
       values = gdf_append["POI"].value_counts()
       fig = px.bar(gdf_append, x=values.tolist(), y=values.index.tolist(), orientation='h')
-      fig.update_traces(hovertemplate='Category: %{x}<br>Number of POI: %{y}')
-
+      fig.update_traces(hovertemplate='Category: %{y}<br>Number of POI: %{x}')
+      
+  
       fig.update_layout(
+          height=400,
+          width=500,
           xaxis_title='Number of POI',
           yaxis_title='Category',
           showlegend=False
