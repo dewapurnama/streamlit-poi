@@ -277,7 +277,7 @@ if excel_file is not None:
     
     #piechart
     with col2:
-      st.markdown("<h1 style='font-size: 20px;'>Distribution of Site with and without POI</h1>", unsafe_allow_html=True)
+      st.markdown("<h1 style='font-size: 18px;'>Distribution of Site with and without POI</h1>", unsafe_allow_html=True)
       #fig1, ax = plt.subplots()
       #fig1.set_size_inches(10, 7)
       #fig1 = plt.figure(figsize=(10,7))
