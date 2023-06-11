@@ -284,8 +284,8 @@ if excel_file is not None:
       labels = ["Site with POI", "Site without POI"]
       sizes = [gdf_summary[gdf_append.columns.values[0]].nunique(), (len(a)-gdf_summary[gdf_append.columns.values[0]].nunique())]
       #plt.set_ylim(top=1)
-      fig1= go.Figure(data=[go.Pie(labels=labels, values=sizes, textinfo='percent+label',
-                             textposition='outside', insidetextorientation='radial')])
+      fig1= go.Figure(data=[go.Pie(labels=labels, values=sizes, textinfo='percent',
+                             textposition='inside', insidetextorientation='radial')])
       fig1.update_layout(margin=dict(t=1))
   
       fig1.update_layout(
