@@ -291,7 +291,7 @@ if excel_file is not None:
     #ax1.pie(sizes, labels=labels, , autopct='%1.1f%%')
     #ax1.set_title("tes")
     #ax1.axis('equal')
-      st.plotly.chart(fig1)
+      st.plotly_chart(fig1)
       #st.pyplot(fig1)
     
     #barchart
