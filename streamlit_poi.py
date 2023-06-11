@@ -277,20 +277,22 @@ if excel_file is not None:
     #piechart
     with col2:
       st.markdown("<h1 style='font-size: 20px;'>Distribution of Site with and without POI</h1>", unsafe_allow_html=True)
-      fig1, ax = plt.subplots()
-      fig1.set_size_inches(10, 7)
+      #fig1, ax = plt.subplots()
+      #fig1.set_size_inches(10, 7)
       #fig1 = plt.figure(figsize=(10,7))
       labels = ["Site with POI", "Site without POI"]
       sizes = [gdf_summary[gdf_append.columns.values[0]].nunique(), (len(a)-gdf_summary[gdf_append.columns.values[0]].nunique())]
       #plt.set_ylim(top=1)
-      ax.pie(sizes, labels = labels, autopct='%1.1f%%')
-      ax.set_ylim(top=1)
+      fig1=px.pie(gdf_summary, values=sizes, names=labels)
+      #ax.pie(sizes, labels = labels, autopct='%1.1f%%')
+      #ax.set_ylim(top=1)
       #plt.pie(sizes, labels = labels, autopct='%1.1f%%')
     #fig1,ax1 = plt.subplots()
     #ax1.pie(sizes, labels=labels, , autopct='%1.1f%%')
     #ax1.set_title("tes")
     #ax1.axis('equal')
-      st.pyplot(fig1)
+      st.plotly.chart(fig1)
+      #st.pyplot(fig1)
     
     #barchart
     #fig = plt.figure(figsize=(10,7))
