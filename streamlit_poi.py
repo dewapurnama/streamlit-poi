@@ -15,6 +15,7 @@ import geopandas as gpd
 import folium
 import osmnx as ox
 import plotly.express as px
+import plotly.graph_objects as go
 import re
 
 from shapely.geometry import Point, LineString, Polygon
@@ -283,7 +284,8 @@ if excel_file is not None:
       labels = ["Site with POI", "Site without POI"]
       sizes = [gdf_summary[gdf_append.columns.values[0]].nunique(), (len(a)-gdf_summary[gdf_append.columns.values[0]].nunique())]
       #plt.set_ylim(top=1)
-      fig1=px.pie(gdf_summary, values=sizes, names=labels)
+      fig1= go.Figure(data=[go.Pie(labels=labels, values=sizes, textinfo='label+percent',
+                             textposition='outside', insidetextorientation='radial')])
       #ax.pie(sizes, labels = labels, autopct='%1.1f%%')
       #ax.set_ylim(top=1)
       #plt.pie(sizes, labels = labels, autopct='%1.1f%%')
