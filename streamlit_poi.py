@@ -229,7 +229,7 @@ if excel_file is not None:
     
     col1, col2 = st.columns(2)
     with col1:
-      st.markdown("<h1 style='font-size: 20px;'>Distribution of Site with and without POI</h1>", unsafe_allow_html=True)
+      st.markdown("<h1 style='font-size: 18px;'>Distribution of Site with and without POI</h1>", unsafe_allow_html=True)
       values = gdf_append["POI"].value_counts()
       fig = px.bar(gdf_append, x=values.tolist(), y=values.index.tolist(), orientation='h')
       fig.update_traces(hovertemplate='Category: %{y}<br>Number of POI: %{x}')
