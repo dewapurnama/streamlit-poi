@@ -111,18 +111,18 @@ if excel_file is not None:
 ## Kolom geometry untuk yang POLYGON harus dicari dulu centroidnya. Setelah itu baru di extraxt long lat nya.
     gdf_append.rename(columns={'Lat':'Lat_TBG','Long':'Long_TBG'}, inplace=True)
     if "name" in gdf_append.columns:
-        gdf_append['name'] = gdf_append['name'].fillna('none')
+        gdf_append['name'] = gdf_append['name'].fillna('no name')
         nama_POI=[]
         if "name:en" in gdf_append.columns:
-            gdf_append['name:en'] = gdf_append['name:en'].fillna('none')
+            gdf_append['name:en'] = gdf_append['name:en'].fillna('no name')
             for i in gdf_append.index:
-                if (gdf_append['name'][i]!="none"):
+                if (gdf_append['name'][i]!="no name"):
                     nama_POI.append(gdf_append['name'][i])
-                elif (gdf_append['name'][i]=="none"):
-                    if (gdf_append['name:en'][i]!="none"):
+                elif (gdf_append['name'][i]=="no name"):
+                    if (gdf_append['name:en'][i]!="no name"):
                         nama_POI.append(gdf_append['name:en'][i])
                     else:
-                        nama_POI.append("none")
+                        nama_POI.append("no name")
         else:
             for i in gdf_append.index:
                 nama_POI.append(gdf_append['name'][i])
@@ -158,19 +158,19 @@ if excel_file is not None:
     
     amenities = []
     if "amenity" in gdf_append.columns:
-        gdf_append['amenity'] = gdf_append['amenity'].fillna('none')
+        gdf_append['amenity'] = gdf_append['amenity'].fillna('no name')
         for i in gdf_append.index:
-            if (gdf_append['amenity'][i]!="none"):
+            if (gdf_append['amenity'][i]!="no name"):
                 amenities.append(gdf_append['amenity'][i])
-            elif (gdf_append['amenity'][i]=="none"):
+            elif (gdf_append['amenity'][i]=="no name"):
                 if "building" in gdf_append.columns:
-                    gdf_append['building'] = gdf_append['building'].fillna('none')
+                    gdf_append['building'] = gdf_append['building'].fillna('no name')
                     if (gdf_append['building'][i]!="none"):
                         amenities.append(gdf_append['building'][i])
             else:
-                amenities.append("none")
+                amenities.append("no name")
     elif "building" in gdf_append.columns:
-        gdf_append['building'] = gdf_append['building'].fillna('none')
+        gdf_append['building'] = gdf_append['building'].fillna('no name')
         for i in gdf_append.index:
             amenities.append(gdf_append['building'][i])
     gdf_append.insert(4, "POI", amenities, True)  
@@ -192,7 +192,7 @@ if excel_file is not None:
                 gdf_append['POI'][i] = "Hotel"
                     
     for i in gdf_append.index:
-        if gdf_append["POI"][i] == "none":
+        if gdf_append["POI"][i] == "no name":
             gdf_append['POI'] = 'public facilities'
     gdf_append['POI'] = gdf_append['POI'].str.title()
                              
