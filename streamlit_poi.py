@@ -52,9 +52,9 @@ if "all" in building:
 df_selection1 = df_amn.query("amenity == @amenity")
 df_selection2 = df_bld.query("building == @building")
 excel_file = st.file_uploader("Upload File", type=['xls','xlsx'])
-file_name = os.path.splitext(excel_file.name)[0]
 
 buffer = io.BytesIO()
+file_name = os.path.splitext(excel_file.name)[0]
 
 if excel_file is not None:
     a = pd.read_excel(excel_file)
