@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import time
 import math
 import io
+import os
 import xlsxwriter
 import geopandas as gpd
 import folium
@@ -51,12 +52,12 @@ if "all" in building:
 df_selection1 = df_amn.query("amenity == @amenity")
 df_selection2 = df_bld.query("building == @building")
 excel_file = st.file_uploader("Upload File", type=['xls','xlsx'])
+file_name = os.path.splitext(excel_file)[0]
 
 buffer = io.BytesIO()
 
 if excel_file is not None:
     a = pd.read_excel(excel_file)
-    sheet_name = a.keys()
     st.dataframe(a)
     
     for column in a.columns:
@@ -321,6 +322,6 @@ if excel_file is not None:
         download2 = st.download_button(
             label="Download data as Excel",
             data=buffer,
-            file_name=f"'{sheet_name}'_Summary.xlsx",
+            file_name=f"Summary_'{file_name}'.xlsx",
             mime='application/vnd.ms-excel'
         )
