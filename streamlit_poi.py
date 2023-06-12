@@ -56,6 +56,7 @@ buffer = io.BytesIO()
 
 if excel_file is not None:
     a = pd.read_excel(excel_file)
+    sheet_name = a.keys()
     st.dataframe(a)
     
     for column in a.columns:
@@ -308,6 +309,7 @@ if excel_file is not None:
     #plt.bar(values.index, values, width = 0.4)
     #st.pyplot(fig)
     
+    st.markdown("<h1 style='font-size: 20px;'>POI Summary</h1>", unsafe_allow_html=True)
     st.dataframe(gdf_summary)
     # download button 2 to download dataframe as xlsx
     with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
@@ -319,6 +321,6 @@ if excel_file is not None:
         download2 = st.download_button(
             label="Download data as Excel",
             data=buffer,
-            file_name='large_df.xlsx',
+            file_name=f"'{sheet_name}'_Summary.xlsx",
             mime='application/vnd.ms-excel'
         )
