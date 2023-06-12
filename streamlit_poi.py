@@ -165,7 +165,7 @@ if excel_file is not None:
             elif (gdf_append['amenity'][i]=="no name"):
                 if "building" in gdf_append.columns:
                     gdf_append['building'] = gdf_append['building'].fillna('no name')
-                    if (gdf_append['building'][i]!="none"):
+                    if (gdf_append['building'][i]!="no name"):
                         amenities.append(gdf_append['building'][i])
             else:
                 amenities.append("no name")
