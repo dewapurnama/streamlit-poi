@@ -54,7 +54,8 @@ df_selection2 = df_bld.query("building == @building")
 excel_file = st.file_uploader("Upload File", type=['xls','xlsx'])
 
 buffer = io.BytesIO()
-file_name = os.path.splitext(excel_file.name)[0]
+if excel_file is not None:
+    file_name = os.path.splitext(excel_file.name)[0]
 
 if excel_file is not None:
     a = pd.read_excel(excel_file)
