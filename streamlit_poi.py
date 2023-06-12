@@ -22,7 +22,7 @@ from shapely.geometry import Point, LineString, Polygon
 import matplotlib.pyplot as plt
 
 # In[3]:
-
+st.set_page_config(page_title="POI Automation")
 st.title('Crowdsource Automation')
 
 data_amenity = {'amenity': ['all', 'apartment', 'cafe', 'campus', 'cemetery', 'farming', 'gas station', 'hospital', 'hotel', 
