@@ -8,4 +8,3 @@ folium
 osmnx
 openpyxl
 plotly
-os
