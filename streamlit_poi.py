@@ -223,45 +223,23 @@ if excel_file is not None:
                            
     #gdf_append = gdf_append.rename(columns={"Lat_POI":"lat","Long_POI":"lon"})
     st.dataframe(gdf_append)
-    # Create the scatter map
-    fig = go.Figure(go.Scattermapbox(
-        lat=gdf_append["Lat_POI"],
-        lon=gdf_append["Long_POI"],
-        hovertext=gdf_append["nama_POI"],
-        hoverinfo="text",
-        mode="markers",
-        marker=go.scattermapbox.Marker(
-            size=10,
-            color="blue"
-        )
-    ))
 
+    st.markdown("<h1 style='font-size: 20px;'>POI Distribution by Location</h1>", unsafe_allow_html=True)
+    fig = px.scatter_mapbox(gdf_append, lat="Lat_POI", lon="Long_POI", hover_name="nama_POI", hover_data="POI", zoom=4)
     # Add the overlay circle
-    overlay = go.Scattermapbox(
+    overlay = px.scatter_mapbox(
         lat=gdf_append["Lat_TBG"],
         lon=gdf_append["Long_TBG"],
-        mode="markers",
-        marker=go.scattermapbox.Marker(
-            size=50,
-            color="red"
-        )
+        hover_name="Site TBG",
+        size=10,
+        color=1,
+        zoom=4
     )
-    fig.add_trace(overlay)
-
-    # Update the layout
-    fig.update_layout(
-        mapbox_style="open-street-map",
-        margin={"r": 0, "t": 0, "l": 0, "b": 0}
-    )
-
-    # Render the map in Streamlit
+    fig.add_trace(overlay.data[0])
+    fig.update_layout(mapbox_style="open-street-map")
+    fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     st.plotly_chart(fig)
-    #st.markdown("<h1 style='font-size: 20px;'>POI Distribution by Location</h1>", unsafe_allow_html=True)
-    #fig = px.scatter_mapbox(gdf_append, lat="Lat_POI", lon="Long_POI", hover_name="nama_POI", hover_data="POI", zoom=4)
-    #fig.update_layout(mapbox_style="open-street-map")
-    #fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-    #st.plotly_chart(fig)
-    #st.map(gdf_append)
+    st.map(gdf_append)
     
     col1, col2 = st.columns(2)
     with col1:
