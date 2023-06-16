@@ -221,10 +221,6 @@ if excel_file is not None:
                 if gdf_append['POI'][j]==i:
                     gdf_append['POI'][j]='public facilities'
                            
-                      
-    import plotly.graph_objects as go
-import streamlit as st
-
     #gdf_append = gdf_append.rename(columns={"Lat_POI":"lat","Long_POI":"lon"})
     st.dataframe(gdf_append)
     # Create the scatter map
