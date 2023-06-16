@@ -227,7 +227,7 @@ if excel_file is not None:
     st.markdown("<h1 style='font-size: 20px;'>POI Distribution by Location</h1>", unsafe_allow_html=True)
     fig = px.scatter_mapbox(gdf_append, lat="Lat_POI", lon="Long_POI", hover_name="nama_POI", hover_data="POI", zoom=4)
     # Add the overlay circle
-    overlay = px.scatter_mapbox(gdf_append, lat="Lat_TBG", lon="Long_TBG", hover_name=gdf_append.columns.values[0], zoom=4, color="red")
+    overlay = px.scatter_mapbox(gdf_append, lat="Lat_TBG", lon="Long_TBG", hover_name=gdf_append.columns.values[0], zoom=4)
     overlay.update_traces(marker=dict(color='red'))
 
     fig.add_trace(overlay.data[0])
