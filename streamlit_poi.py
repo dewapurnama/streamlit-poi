@@ -233,7 +233,7 @@ if excel_file is not None:
     fig.update_layout(mapbox_style="open-street-map")
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     st.plotly_chart(fig)
-    st.map(gdf_append)
+    #st.map(gdf_append)
     
     col1, col2 = st.columns(2)
     with col1:
