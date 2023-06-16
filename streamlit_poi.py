@@ -228,6 +228,7 @@ if excel_file is not None:
     fig = px.scatter_mapbox(gdf_append, lat="Lat_POI", lon="Long_POI", hover_name="nama_POI", hover_data="POI", zoom=4)
     # Add the overlay circle
     overlay = px.scatter_mapbox(gdf_append, lat="Lat_TBG", lon="Long_TBG", hover_name=gdf_append.columns.values[0], zoom=4, color="red")
+    overlay.update_traces(marker=dict(color='red'))
 
     fig.add_trace(overlay.data[0])
     fig.update_layout(mapbox_style="open-street-map")
