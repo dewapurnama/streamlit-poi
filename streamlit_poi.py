@@ -238,8 +238,8 @@ if excel_file is not None:
 
     # Add the overlay circle
     overlay = go.Scattermapbox(
-        lat1=gdf_append[Lat_TBG],
-        lon1=gdf_append[Long_TBG],
+        lat=gdf_append[Lat_TBG],
+        lon=gdf_append[Long_TBG],
         mode="markers",
         marker=go.scattermapbox.Marker(
             size=50,
