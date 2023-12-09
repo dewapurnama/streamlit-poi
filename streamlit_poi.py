@@ -1,31 +1,22 @@
 #!/usr/bin/env python
 # coding: utf-8
-
 # In[2]:
-
-
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import time
 import math
 import io
-import os
 import xlsxwriter
 import geopandas as gpd
 import folium
 import osmnx as ox
-import plotly.express as px
-import plotly.graph_objects as go
 import re
-
 from shapely.geometry import Point, LineString, Polygon
 import matplotlib.pyplot as plt
-
 # In[3]:
-st.set_page_config(page_title="POI Automation")
 st.title('Crowdsource Automation')
-
+#tes_input = st.text_input('ini input ayo input')
 data_amenity = {'amenity': ['all', 'apartment', 'cafe', 'campus', 'cemetery', 'farming', 'gas station', 'hospital', 'hotel', 
                             'industrial area', 'kindergarten', 'mall', 'mining area', 'modern market', 'office', 'palm oil', 
                             'public facilities', 'pumping station', 'residential', 'restaurant', 'school', 'tourist park', 
@@ -52,20 +43,11 @@ if "all" in building:
 df_selection1 = df_amn.query("amenity == @amenity")
 df_selection2 = df_bld.query("building == @building")
 excel_file = st.file_uploader("Upload File", type=['xls','xlsx'])
-
 buffer = io.BytesIO()
-if excel_file is not None:
-    file_name = os.path.splitext(excel_file.name)[0]
-
 if excel_file is not None:
     a = pd.read_excel(excel_file)
     st.dataframe(a)
     
-    for column in a.columns:
-      if a[column].dtype in [float, int] and a[column].between(-180, 180).all() and not a[column].between(-90, 90).all():
-        a = a.rename(columns={column: "Long"})
-      elif a[column].dtype in [float, int] and a[column].between(-90, 90).all():
-        a = a.rename(columns={column: "Lat"})
     #gdf.rename(columns={'Lat':'Lat_TBG','Long':'Long_TBG'}, inplace=True)
     
     #st.dataframe(gdf)
@@ -78,10 +60,9 @@ if excel_file is not None:
     ## Explore tourism tags (https://wiki.openstreetmap.org/wiki/Key:tourism)
         
         tags = {'amenity': df_selection1['amenity'].values.tolist(), 'building': df_selection2['building'].values.tolist()}
-
     ## Input points (Lat, Long) and distance (radius in meters)
     ## Multiple input points? Modify using for loop...
-        gdf = ox.features.features_from_point((a["Lat"][i], a["Long"][i]), tags, dist=1000).reset_index()
+        gdf = ox.geometries.geometries_from_point((a["Lat"][i], a["Long"][i]), tags, dist=1000).reset_index()
         gdf["Lat"] = a["Lat"][i]
         gdf["Long"] = a["Long"][i]
         if i == len(a)-1:
@@ -114,30 +95,26 @@ if excel_file is not None:
 ## Kolom geometry untuk yang POLYGON harus dicari dulu centroidnya. Setelah itu baru di extraxt long lat nya.
     gdf_append.rename(columns={'Lat':'Lat_TBG','Long':'Long_TBG'}, inplace=True)
     if "name" in gdf_append.columns:
-        gdf_append['name'] = gdf_append['name'].fillna('no name')
+        gdf_append['name'] = gdf_append['name'].fillna('none')
         nama_POI=[]
         if "name:en" in gdf_append.columns:
-            gdf_append['name:en'] = gdf_append['name:en'].fillna('no name')
+            gdf_append['name:en'] = gdf_append['name:en'].fillna('none')
             for i in gdf_append.index:
-                if (gdf_append['name'][i]!="no name"):
+                if (gdf_append['name'][i]!="none"):
                     nama_POI.append(gdf_append['name'][i])
-                elif (gdf_append['name'][i]=="no name"):
-                    if (gdf_append['name:en'][i]!="no name"):
+                elif (gdf_append['name'][i]=="none"):
+                    if (gdf_append['name:en'][i]!="none"):
                         nama_POI.append(gdf_append['name:en'][i])
                     else:
-                        nama_POI.append("no name")
+                        nama_POI.append("none")
         else:
             for i in gdf_append.index:
                 nama_POI.append(gdf_append['name'][i])
         gdf_append['nama_POI']=nama_POI
-
     Lat_POI = []
     Long_POI = []
     for i in gdf_append.index:
         if gdf_append['geometry'][i].geom_type == "Polygon":
-            Long_POI.append(gdf_append['geometry'][i].centroid.x)
-            Lat_POI.append(gdf_append['geometry'][i].centroid.y)
-        elif gdf_append['geometry'][i].geom_type == "MultiPolygon":
             Long_POI.append(gdf_append['geometry'][i].centroid.x)
             Lat_POI.append(gdf_append['geometry'][i].centroid.y)
         elif gdf_append['geometry'][i].geom_type == "Point":
@@ -155,25 +132,25 @@ if excel_file is not None:
     gdf_append = gdf_append.drop_duplicates()
                              
     if "nama_POI" in gdf_append.columns:
-        gdf_append = gdf_append.drop_duplicates(subset=[gdf_append.columns.values[0], 'amenity', 'nama_POI'], keep='first').reset_index(drop=True)
+        gdf_append = gdf_append.drop_duplicates(subset=['SiteId TBG', 'amenity', 'nama_POI'], keep='first').reset_index(drop=True)
         if "building" in gdf_append.columns:
-            gdf_append = gdf_append.drop_duplicates(subset=[gdf_append.columns.values[0], 'building', 'nama_POI'], keep='first').reset_index(drop=True)
+            gdf_append = gdf_append.drop_duplicates(subset=['SiteId TBG', 'building', 'nama_POI'], keep='first').reset_index(drop=True)
     
     amenities = []
     if "amenity" in gdf_append.columns:
-        gdf_append['amenity'] = gdf_append['amenity'].fillna('no name')
+        gdf_append['amenity'] = gdf_append['amenity'].fillna('none')
         for i in gdf_append.index:
-            if (gdf_append['amenity'][i]!="no name"):
+            if (gdf_append['amenity'][i]!="none"):
                 amenities.append(gdf_append['amenity'][i])
-            elif (gdf_append['amenity'][i]=="no name"):
+            elif (gdf_append['amenity'][i]=="none"):
                 if "building" in gdf_append.columns:
-                    gdf_append['building'] = gdf_append['building'].fillna('no name')
-                    if (gdf_append['building'][i]!="no name"):
+                    gdf_append['building'] = gdf_append['building'].fillna('none')
+                    if (gdf_append['building'][i]!="none"):
                         amenities.append(gdf_append['building'][i])
             else:
-                amenities.append("no name")
+                amenities.append("none")
     elif "building" in gdf_append.columns:
-        gdf_append['building'] = gdf_append['building'].fillna('no name')
+        gdf_append['building'] = gdf_append['building'].fillna('none')
         for i in gdf_append.index:
             amenities.append(gdf_append['building'][i])
     gdf_append.insert(4, "POI", amenities, True)  
@@ -195,7 +172,7 @@ if excel_file is not None:
                 gdf_append['POI'][i] = "Hotel"
                     
     for i in gdf_append.index:
-        if gdf_append["POI"][i] == "no name":
+        if gdf_append["POI"][i] == "none":
             gdf_append['POI'] = 'public facilities'
     gdf_append['POI'] = gdf_append['POI'].str.title()
                              
@@ -214,61 +191,28 @@ if excel_file is not None:
             gdf_append['POI'][i]="Apartment"
               
     amenity = ['Apartment','School/Campus','Gas Station','Restaurant / Cafe', 'Hospital', 'Hotel', 'Cemetery', 'Farming', 'Industrial Area', 'Mall', 'Mining Area', 'Modern Market', 'Office', 'Palm Oil', 'public facilities', 'Pumping Station', 'Residential', 'Tourist Park', 'Traditional Market', 'Transport Hub', 'Voucher Shop', 'Warehouse', 'worship place']
-    
+                             
     for i in gdf_append['POI'].unique():
         if i not in amenity:
             for j in gdf_append.index:
                 if gdf_append['POI'][j]==i:
                     gdf_append['POI'][j]='public facilities'
                            
-    #gdf_append = gdf_append.rename(columns={"Lat_POI":"lat","Long_POI":"lon"})
+    gdf_append = gdf_append.rename(columns={"Lat_POI":"lat","Long_POI":"lon"})
     st.dataframe(gdf_append)
-
-    st.markdown("<h1 style='font-size: 20px;'>POI Distribution by Location</h1>", unsafe_allow_html=True)
-    fig = px.scatter_mapbox(gdf_append, lat="Lat_POI", lon="Long_POI", hover_name="nama_POI", hover_data="POI", zoom=4, color_discrete_sequence=["fuchsia"])
-    #fig.update_traces(marker=dict(color='blue'))
-    # Add the overlay circle
-    overlay = px.scatter_mapbox(gdf_append, lat="Lat_TBG", lon="Long_TBG", hover_name=gdf_append.columns.values[0], zoom=4, color_discrete_sequence=["fuchsia"])
-    #overlay.update_traces(marker=dict(color='red'))
-
-    fig.add_trace(overlay.data[0])
-    fig.update_layout(mapbox_style="open-street-map")
-    fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-    st.plotly_chart(fig)
-    #st.map(gdf_append)
+    st.map(gdf_append)
     
-    col1, col2 = st.columns(2)
-    with col1:
-      st.markdown("<h1 style='font-size: 18px;'>Distribution of POI by Category</h1>", unsafe_allow_html=True)
-      values = gdf_append["POI"].value_counts()
-      fig = px.bar(gdf_append, x=values.tolist(), y=values.index.tolist(), orientation='h')
-      fig.update_traces(hovertemplate='Category: %{y}<br>Number of POI: %{x}')
-      fig.update_yaxes(tickfont=dict(size=8))
-      fig.update_xaxes(tickfont=dict(size=8))
-      fig.update_layout(margin=dict(t=1))
-  
-      fig.update_layout(
-          height=300,
-          width=350,
-          xaxis_title='Number of POI',
-          yaxis_title='Category',
-          showlegend=False
-      )
-
-      fig.update_traces(marker_color='rgb(0, 128, 128)')
-
-      st.plotly_chart(fig)
-      #fig = plt.figure(figsize=(10,7))
-      #values = gdf_append["POI"].value_counts()
-      #plt.title("POI Category Distribution")
-      #plt.ylabel("Category")
-      #plt.xlabel("Number of POI")
-      #plt.barh(values.index, values)
-      #st.pyplot(fig)
+    fig = plt.figure(figsize=(10,7))
+    values = gdf_append["POI"].value_counts()
+    plt.title("POI Category Distribution")
+    plt.ylabel("Category")
+    plt.xlabel("Number of POI")
+    plt.barh(values.index, values)
+    st.pyplot(fig)
     
     x = []
-    for i in gdf_append[gdf_append.columns.values[0]].unique():
-        x.append(gdf_append.loc[gdf_append[gdf_append.columns.values[0]] == i, 'POI'].unique())
+    for i in gdf_append["SiteId TBG"].unique():
+        x.append(gdf_append.loc[gdf_append['SiteId TBG'] == i, 'POI'].unique())
     
     z=[]
     for i in range(len(x)):
@@ -278,39 +222,22 @@ if excel_file is not None:
             if j < (len(x[i])-1):
                 y = y+"+"
         z.append(y)
-
-    gdf_append = gdf_append.drop_duplicates(subset=[gdf_append.columns.values[0]], keep='first').reset_index(drop=True)
+    gdf_append = gdf_append.drop_duplicates(subset=['SiteId TBG'], keep='first').reset_index(drop=True)
     gdf_append["POIs"]=z
-    gdf_summary = gdf_append[[gdf_append.columns.values[0], 'POIs']].copy()
+    gdf_summary = gdf_append[['SiteId TBG', 'POIs']].copy()
     gdf_summary.rename(columns={'POIs':'POI'}, inplace=True)
     #gdf_append['geometry'] = gdf_append['geometry'].astype(str)
     
     #piechart
-    with col2:
-      st.markdown("<h1 style='font-size: 18px;'>Distribution of Site with and without POI</h1>", unsafe_allow_html=True)
-      #fig1, ax = plt.subplots()
-      #fig1.set_size_inches(10, 7)
-      #fig1 = plt.figure(figsize=(10,7))
-      labels = ["Site with POI", "Site without POI"]
-      sizes = [gdf_summary[gdf_append.columns.values[0]].nunique(), (len(a)-gdf_summary[gdf_append.columns.values[0]].nunique())]
-      #plt.set_ylim(top=1)
-      fig1= go.Figure(data=[go.Pie(labels=labels, values=sizes, textinfo='percent',
-                             textposition='inside')])
-      fig1.update_layout(margin=dict(t=1))
-  
-      fig1.update_layout(
-          height=300,
-          width=350,
-      )
-      #ax.pie(sizes, labels = labels, autopct='%1.1f%%')
-      #ax.set_ylim(top=1)
-      #plt.pie(sizes, labels = labels, autopct='%1.1f%%')
+    fig1 = plt.figure(figsize=(10,7))
+    labels = ["Site with POI", "Site without POI"]
+    sizes = [gdf_summary["SiteId TBG"].nunique(), (len(a)-gdf_summary["SiteId TBG"].nunique())]
+    plt.pie(sizes, labels = labels, autopct='%1.1f%%')
     #fig1,ax1 = plt.subplots()
     #ax1.pie(sizes, labels=labels, , autopct='%1.1f%%')
     #ax1.set_title("tes")
     #ax1.axis('equal')
-      st.plotly_chart(fig1)
-      #st.pyplot(fig1)
+    st.pyplot(fig1)
     
     #barchart
     #fig = plt.figure(figsize=(10,7))
@@ -318,7 +245,6 @@ if excel_file is not None:
     #plt.bar(values.index, values, width = 0.4)
     #st.pyplot(fig)
     
-    st.markdown("<h1 style='font-size: 20px;'>POI Summary</h1>", unsafe_allow_html=True)
     st.dataframe(gdf_summary)
     # download button 2 to download dataframe as xlsx
     with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
@@ -330,6 +256,7 @@ if excel_file is not None:
         download2 = st.download_button(
             label="Download data as Excel",
             data=buffer,
-            file_name=f"Summary_'{file_name}'.xlsx",
+            file_name='large_df.xlsx',
             mime='application/vnd.ms-excel'
         )
+        
