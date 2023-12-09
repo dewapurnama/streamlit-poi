@@ -81,7 +81,7 @@ if excel_file is not None:
 
     ## Input points (Lat, Long) and distance (radius in meters)
     ## Multiple input points? Modify using for loop...
-        gdf = ox.features.features_from_point((a["Lat"][i], a["Long"][i]), tags, dist=1500).reset_index()
+        gdf = ox.features.features_from_point((a["Lat"][i], a["Long"][i]), tags, dist=1000).reset_index()
         gdf["Lat"] = a["Lat"][i]
         gdf["Long"] = a["Long"][i]
         if i == len(a)-1:
