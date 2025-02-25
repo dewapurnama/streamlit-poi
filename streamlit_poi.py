@@ -95,13 +95,13 @@ if excel_file is not None:
     if "amenity" in gdf_append.columns:
         if "name:en" in gdf_append.columns:
             if "building" in gdf_append.columns:
-                gdf_append = gdf_append[['geometry', 'Lat', 'Long', 'osmid', 'amenity', 'building', 'name', 'name:en']]
+                gdf_append = gdf_append[['geometry', 'Lat', 'Long', 'amenity', 'building', 'name', 'name:en']]
             else:
-                gdf_append = gdf_append[['geometry', 'Lat', 'Long', 'osmid', 'amenity','name', 'name:en']]
+                gdf_append = gdf_append[['geometry', 'Lat', 'Long', 'amenity','name', 'name:en']]
         elif "building" in gdf_append.columns:
-            gdf_append = gdf_append[['geometry', 'Lat', 'Long', 'osmid', 'amenity', 'building','name']]
+            gdf_append = gdf_append[['geometry', 'Lat', 'Long', 'amenity', 'building','name']]
         else:
-            gdf_append = gdf_append[['geometry', 'Lat', 'Long', 'osmid', 'amenity', 'name']]
+            gdf_append = gdf_append[['geometry', 'Lat', 'Long', 'amenity', 'name']]
     elif "building" in gdf_append.columns:
         gdf_append = gdf_append[['geometry', 'Lat', 'Long', 'building']]
     else:
