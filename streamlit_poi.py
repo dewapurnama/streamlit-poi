@@ -59,7 +59,7 @@ if excel_file is not None:
     ## Explore building tags (https://wiki.openstreetmap.org/wiki/Key:building)
     ## Explore tourism tags (https://wiki.openstreetmap.org/wiki/Key:tourism)
         
-        tags = {'amenity': df_selection1['amenity'].values.tolist(), 'building': df_selection2['building'].values.tolist()}
+      tags = {'amenity': df_selection1['amenity'].values.tolist(), 'building': df_selection2['building'].values.tolist()}
     ## Input points (Lat, Long) and distance (radius in meters)
     ## Multiple input points? Modify using for loop...
     try:
@@ -86,11 +86,11 @@ if excel_file is not None:
         #else:
             #bar.progress(round((i+1)*((100/len(a)))))
             #progress_status.write(str(round((i+1)*((100/len(a)))))+f"% ({i+1}/{len(a)})")
-    if gdf_append:
-      gdf_append = pd.concat(gdf_append)
-      st.dataframe(gdf_append)
-    else:
-      st.warning("No results were retrieved from OSM.")
+  if gdf_append:
+    gdf_append = pd.concat(gdf_append)
+    st.dataframe(gdf_append)
+  else:
+    st.warning("No results were retrieved from OSM.")
     #gdf_append = pd.concat(gdf_append)
     if "amenity" in gdf_append.columns:
         if "name:en" in gdf_append.columns:
