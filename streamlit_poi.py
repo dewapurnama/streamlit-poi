@@ -86,11 +86,11 @@ if excel_file is not None:
         #else:
             #bar.progress(round((i+1)*((100/len(a)))))
             #progress_status.write(str(round((i+1)*((100/len(a)))))+f"% ({i+1}/{len(a)})")
-  if gdf_append:
-    gdf_append = pd.concat(gdf_append)
-    st.dataframe(gdf_append)
-  else:
-    st.warning("No results were retrieved from OSM.")
+    if gdf_append:
+      gdf_append = pd.concat(gdf_append)
+      st.dataframe(gdf_append)
+    else:
+      st.warning("No results were retrieved from OSM.")
     #gdf_append = pd.concat(gdf_append)
     if "amenity" in gdf_append.columns:
         if "name:en" in gdf_append.columns:
