@@ -62,21 +62,21 @@ if excel_file is not None:
         tags = {'amenity': df_selection1['amenity'].values.tolist(), 'building': df_selection2['building'].values.tolist()}
     ## Input points (Lat, Long) and distance (radius in meters)
     ## Multiple input points? Modify using for loop...
-      try:
-        gdf = ox.features.features_from_point((a["Lat"][i], a["Long"][i]), tags, dist=1000).reset_index()
-        gdf["Lat"] = a["Lat"][i]
-        gdf["Long"] = a["Long"][i]
-        gdf_append.append(gdf)
-      except ox._errors.InsufficientResponseError:
-        st.warning(f"OSM returned no data for lat: {a['Lat'][i]}, long: {a['Long'][i]}. Skipping...")
-        continue  # Skip this iteration instead of breaking
-      except Exception as e:
-        st.error(f"Unexpected error at index {i}: {e}")
-        continue  # Continue processing even if an error occurs
+    try:
+      gdf = ox.features.features_from_point((a["Lat"][i], a["Long"][i]), tags, dist=1000).reset_index()
+      gdf["Lat"] = a["Lat"][i]
+      gdf["Long"] = a["Long"][i]
+      gdf_append.append(gdf)
+    except ox._errors.InsufficientResponseError:
+      st.warning(f"OSM returned no data for lat: {a['Lat'][i]}, long: {a['Long'][i]}. Skipping...")
+      continue  # Skip this iteration instead of breaking
+    except Exception as e:
+      st.error(f"Unexpected error at index {i}: {e}")
+      continue  # Continue processing even if an error occurs
        # Progress Bar Update
-      progress = round((i+1) * (100 / len(a)))
-      bar.progress(progress)
-      progress_status.write(f"{progress}% ({i+1}/{len(a)})")
+    progress = round((i+1) * (100 / len(a)))
+    bar.progress(progress)
+    progress_status.write(f"{progress}% ({i+1}/{len(a)})")
         #gdf = ox.features.features_from_point((a["Lat"][i], a["Long"][i]), tags, dist=5000).reset_index()
         #gdf["Lat"] = a["Lat"][i]
         #gdf["Long"] = a["Long"][i]
