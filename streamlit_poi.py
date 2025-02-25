@@ -62,21 +62,21 @@ if excel_file is not None:
       tags = {'amenity': df_selection1['amenity'].values.tolist(), 'building': df_selection2['building'].values.tolist()}
     ## Input points (Lat, Long) and distance (radius in meters)
     ## Multiple input points? Modify using for loop...
-    try:
-      gdf = ox.features.features_from_point((a["Lat"][i], a["Long"][i]), tags, dist=1000).reset_index()
-      gdf["Lat"] = a["Lat"][i]
-      gdf["Long"] = a["Long"][i]
-      gdf_append.append(gdf)
-    except ox._errors.InsufficientResponseError:
-      st.warning(f"OSM returned no data for lat: {a['Lat'][i]}, long: {a['Long'][i]}. Skipping...")
-      continue  # Skip this iteration instead of breaking
-    except Exception as e:
-      st.error(f"Unexpected error at index {i}: {e}")
-      continue  # Continue processing even if an error occurs
-       # Progress Bar Update
-    progress = round((i+1) * (100 / len(a)))
-    bar.progress(progress)
-    progress_status.write(f"{progress}% ({i+1}/{len(a)})")
+      try:
+        gdf = ox.features.features_from_point((a["Lat"][i], a["Long"][i]), tags, dist=1000).reset_index()
+        gdf["Lat"] = a["Lat"][i]
+        gdf["Long"] = a["Long"][i]
+        gdf_append.append(gdf)
+      except ox._errors.InsufficientResponseError:
+        st.warning(f"OSM returned no data for lat: {a['Lat'][i]}, long: {a['Long'][i]}. Skipping...")
+        continue  # Skip this iteration instead of breaking
+      except Exception as e:
+        st.error(f"Unexpected error at index {i}: {e}")
+        continue  # Continue processing even if an error occurs
+         # Progress Bar Update
+      progress = round((i+1) * (100 / len(a)))
+      bar.progress(progress)
+      progress_status.write(f"{progress}% ({i+1}/{len(a)})")
         #gdf = ox.features.features_from_point((a["Lat"][i], a["Long"][i]), tags, dist=5000).reset_index()
         #gdf["Lat"] = a["Lat"][i]
         #gdf["Long"] = a["Long"][i]
@@ -86,11 +86,11 @@ if excel_file is not None:
         #else:
             #bar.progress(round((i+1)*((100/len(a)))))
             #progress_status.write(str(round((i+1)*((100/len(a)))))+f"% ({i+1}/{len(a)})")
-  if gdf_append:
-    gdf_append = pd.concat(gdf_append)
-    st.dataframe(gdf_append)
-  else:
-    st.warning("No results were retrieved from OSM.")
+    if gdf_append:
+      gdf_append = pd.concat(gdf_append)
+      st.dataframe(gdf_append)
+    else:
+      st.warning("No results were retrieved from OSM.")
     #gdf_append = pd.concat(gdf_append)
     if "amenity" in gdf_append.columns:
         if "name:en" in gdf_append.columns:
