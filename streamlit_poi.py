@@ -62,7 +62,7 @@ if excel_file is not None:
         tags = {'amenity': df_selection1['amenity'].values.tolist(), 'building': df_selection2['building'].values.tolist()}
     ## Input points (Lat, Long) and distance (radius in meters)
     ## Multiple input points? Modify using for loop...
-        gdf = ox.features.features_from_point((a["Lat"][i], a["Long"][i]), tags, dist=1000).reset_index()
+        gdf = ox.features.features_from_point((a["Lat"][i], a["Long"][i]), tags, dist=5000).reset_index()
         gdf["Lat"] = a["Lat"][i]
         gdf["Long"] = a["Long"][i]
         if i == len(a)-1:
