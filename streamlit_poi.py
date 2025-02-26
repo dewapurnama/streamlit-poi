@@ -138,6 +138,9 @@ if excel_file is not None:
         elif gdf_append['geometry'][i].geom_type == "Point":
             Long_POI.append(gdf_append['geometry'][i].x)
             Lat_POI.append(gdf_append['geometry'][i].y)
+        else:
+            Long_POI.append(gdf_append['geometry'][i].centroid.x)
+            Lat_POI.append(gdf_append['geometry'][i].centroid.y)
     gdf_append["Long_POI"]=Long_POI
     gdf_append["Lat_POI"]=Lat_POI
     
